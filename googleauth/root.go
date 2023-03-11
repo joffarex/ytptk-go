@@ -15,8 +15,6 @@ import (
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/youtube/v3"
-
-	"github.com/joffarex/ytptk-go/ytpapi"
 )
 
 // getClient uses a Context and Config to retrieve a Token
@@ -39,7 +37,7 @@ func getClient(ctx context.Context, config *oauth2.Config) *http.Client {
 func getTokenFromWeb(config *oauth2.Config) *oauth2.Token {
 	authURL := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
 	fmt.Printf("Go to the following link in your browser then type the "+
-		"authorization code: \n%v\n", authURL)
+		"authorization code: \n%v\nPaste here: ", authURL)
 
 	var code string
 	if _, err := fmt.Scan(&code); err != nil {
@@ -63,7 +61,7 @@ func tokenCacheFile() (string, error) {
 	tokenCacheDir := filepath.Join(usr.HomeDir, ".credentials")
 	os.MkdirAll(tokenCacheDir, 0700)
 	return filepath.Join(tokenCacheDir,
-		url.QueryEscape("youtube-go-quickstart.json")), err
+		url.QueryEscape("ytptk-google-auth.json")), err
 }
 
 // tokenFromFile retrieves a Token from a given file path.
@@ -91,7 +89,7 @@ func saveToken(file string, token *oauth2.Token) {
 	json.NewEncoder(f).Encode(token)
 }
 
-func AuthenticateWithGoogle() {
+func AuthenticateWithGoogle() *youtube.Service {
 	ctx := context.Background()
 
 	b, err := ioutil.ReadFile("client_secret.json")
@@ -112,7 +110,5 @@ func AuthenticateWithGoogle() {
 		log.Fatalf("Error creating YouTube client: %v", err.Error())
 	}
 
-	part := []string{"snippet", "contentDetails", "statistics"}
-
-	ytpapi.ChannelsListByUsername(service, part, "GoogleDevelopers")
+	return service
 }
