@@ -3,6 +3,10 @@ package googleauth
 import (
 	"encoding/json"
 	"fmt"
+	"golang.org/x/net/context"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
+	"google.golang.org/api/youtube/v3"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -10,11 +14,6 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
-
-	"golang.org/x/net/context"
-	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/google"
-	"google.golang.org/api/youtube/v3"
 )
 
 // getClient uses a Context and Config to retrieve a Token

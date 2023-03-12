@@ -10,7 +10,9 @@ import (
 func main() {
 	service := googleauth.AuthenticateWithGoogle()
 
-	playlistId := "PL7atuZxmT954bCkC062rKwXTvJtcqFB8i"
+	playlistId := "PL9ukzXzOMKcC6t4ecuc11Ud0--n5tirr4"
 	durationInSeconds := ytpapi.GetTotalPlaylistDuration(service, playlistId, "")
 	fmt.Printf("PlaylistId: %s, Duration: %s", playlistId, dateutils.SecondsToDuration(durationInSeconds))
+
+	ytpapi.DownloadVideoToDestination(service, "bTE73vo5jxc", "testfilename")
 }

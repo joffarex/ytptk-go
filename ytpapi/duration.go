@@ -9,7 +9,8 @@ import (
 	"strings"
 )
 
-var videoParts = []string{"contentDetails"}
+var playlistItemParts = []string{"contentDetails"}
+var videoParts = []string{"contentDetails", "id", "liveStreamingDetails", "player", "status"}
 
 func toSeconds(input string) int {
 	regexPattern := "^P(?:(\\d+)D)?T(?:(\\d+)H)?(?:(\\d+)M)?(?:(\\d+)S)?$"
@@ -39,7 +40,7 @@ func toSeconds(input string) int {
 }
 
 func GetTotalPlaylistDuration(service *youtube.Service, playlistId string, pageToken string) int {
-	playlistItemsResponse, playlistItemsError := service.PlaylistItems.List(videoParts).PlaylistId(playlistId).MaxResults(50).PageToken(pageToken).Do()
+	playlistItemsResponse, playlistItemsError := service.PlaylistItems.List(playlistItemParts).PlaylistId(playlistId).MaxResults(50).PageToken(pageToken).Do()
 
 	if playlistItemsError != nil {
 		log.Fatalf("Failed to get playlist items list: %v", playlistItemsError.Error())
